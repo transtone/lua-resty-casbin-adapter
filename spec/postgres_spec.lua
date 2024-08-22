@@ -9,6 +9,7 @@ local pg_conf = {
         host = "127.0.0.1",
         port = 5432,
         database = "izw",
+        schema = "public",
         user = "tom",
         password = "",
         max_packet_size = 1024 * 1024,
@@ -18,7 +19,6 @@ local pg_conf = {
         ssl = false,
         ssl_required = nil,
         socket_type = "nginx",  -- "luasocket"
-        application_name = "iot",
     },
     pool_config = {
         max_idle_timeout = 20000, -- 20s
@@ -43,7 +43,7 @@ COMMIT
         table_name = { flag = "raw", value = "casbin_rules" }
     }
     local res, err = db:multi_query(sql, params)
-    
+
     local a = Adapter:new(pg_conf, "casbin_rules")
 
     return a

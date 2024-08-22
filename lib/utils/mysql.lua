@@ -310,7 +310,7 @@ function  _M:parse_sql_bind_params(sql, params)
         new_params[k] = val
     end
 
-    local regex = [[(?<str>:(?<param>([1-9]|[a-z]|[A-Z]|_){1,}))]]
+    local regex = [[(?<str>:(?<param>([1-9]|[a-z]|[A-Z]|_|'){1,}))]]
     local it,err = ngx_re_gmatch(sql, regex)
     if not it then
         log.error( "gmatch error: ", err)
@@ -325,7 +325,7 @@ function  _M:parse_sql_bind_params(sql, params)
             return
         end
 
-        if not m then
+        if not m or string.sub(m['str'], -1) == "'" then
             break
         end
 
